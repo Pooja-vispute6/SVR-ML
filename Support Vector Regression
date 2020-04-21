@@ -1,0 +1,48 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Apr 21 16:01:45 2020
+
+@author: pooja vispute
+"""
+
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+dataset=pd.read_csv('C:/Users/WIN 10/Desktop/ML/Machine Learning A-Z New/Part 2 - Regression/Section 7 - Support Vector Regression (SVR)/Position_Salaries.csv')
+
+x=dataset.iloc[:,1:2].values
+y=dataset.iloc[:,2].values
+y=np.reshape(y,(-1, 1))
+
+from sklearn.preprocessing import StandardScaler
+sc_x=StandardScaler()
+sc_y=StandardScaler()
+x=sc_x.fit_transform(x)
+
+#we cannot apply StandardScaler to a 1D array , but we can use scale
+#from sklearn.preprocessing import scale
+#y = scale(y)
+y=sc_y.fit_transform(y)
+
+
+plt.scatter(x,y,color='red')
+plt.plot(x,y,color='red')
+plt.show()
+
+from sklearn.svm import SVR
+regressor=SVR(kernel='rbf')
+regressor.fit(x,y)
+
+
+
+plt.scatter(x,y,color='red')
+plt.plot(x,regressor.predict(x),color='blue')
+plt.title("truth or bluff(SVR)")
+plt.xlabel("Position_level")
+plt.ylabel("salary")
+plt.show()
+
+
